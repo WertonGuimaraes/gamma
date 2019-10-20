@@ -52,7 +52,7 @@
     "karma-phantomjs-launcher": "~0.2.0",
     "karma-sinon": "~1.0.3",
     "karma-sinon-chai": "~1.1.0",
-    "lodash": "~3.9.3",
+    "lodash": "~4.17.15",
     "main-bower-files": "~2.8.0",
     "merge-stream": "~0.1.7",
     "protractor-html-screenshot-reporter": "0.0.21",
