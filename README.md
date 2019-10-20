@@ -1,6 +1,8 @@
 # Welcome to Game Marketing Manager
 
-This project is a API for Asus game developers and managers be able to add promotions events to their games.
+This project is a API for Company game developers and managers be able to add promotions events to their games.
+The frontend was developed by Fagner and Renato.
+The backend was developed by Joao Lucas and Werton.
 
 ## Documentation
 
