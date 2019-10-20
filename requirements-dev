@@ -1,0 +1,5 @@
+-r requirements.txt
+requests==2.2.1
+tqdm==3.7.1
+django-rest-swagger==0.3.4
+django-test-without-migrations==0.4

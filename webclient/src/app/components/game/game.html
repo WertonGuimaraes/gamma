@@ -1,0 +1,236 @@
+<div layout="row">
+  <div class="div-content-padding content" layout-align="center center">
+    <div layout="column" class="md-inline-form">
+      <md-content layout-padding>
+        <form name="gameCreateForm">
+          <div layout="column">
+            <div layout="row" layout-align="end center">
+              <p>
+                <small class="md-caption" translate="REQUIRED_FIELDS_ID"></small>
+              </p>
+            </div>
+
+            <div layout="column">
+              <md-input-container flex class="md-has-icon" name="nameInput">
+                <label><span translate="GAME_NAME_ID"></span>
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="description"></ng-md-icon>
+                <input type="text" ng-model="gameCtrl.game.name" md-maxlength="50" required name="gameName"
+                       placeholder-class="gmm-placeholder">
+                <div ng-messages="gameCreateForm.gameName.$error">
+                  <div ng-message='required' ng-show="gameCreateForm.gameName.$error.required" translate="INFO_FIELD_REQUIRED_ID">
+                  </div>
+                  <div ng-message='md-maxlength' ng-show="gameCreateForm.gameName.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="50">
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="column" class="gmm-margin-top-negative-40">
+              <md-input-container flex class="md-has-icon" name="keyInput">
+                <label><span translate="API_KEY_ID"></span>
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="extension"></ng-md-icon>
+                <input type="text" ng-model="gameCtrl.game.api_key" md-maxlength="100" required name="gameApiKey"
+                       placeholder-class="gmm-placeholder">
+                <div ng-messages="gameCreateForm.gameApiKey.$error">
+                  <div ng-message='required' ng-show="gameCreateForm.gameApiKey.$error.required" translate="INFO_FIELD_REQUIRED_ID">
+                  </div>
+                  <div ng-message='md-maxlength' ng-show="gameCreateForm.gameApiKey.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="100">
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row" class="gmm-margin-top-negative-40">
+              <div flex="50">
+                <div flex="100" layout="column">
+                  <md-input-container flex class="md-has-icon">
+                    <label><span translate="PACKAGE_NAME_ID"></span>
+                      <small class="md-caption">*</small>
+                    </label>
+                    <ng-md-icon icon="description"></ng-md-icon>
+                    <input type="text" ng-model="gameCtrl.game.package_name" md-maxlength="254" required name="gamePackageName">
+                    <div ng-messages="gameCreateForm.gamePackageName.$error">
+                      <div ng-message='required' ng-show="gameCreateForm.gamePackageName.$error.required" translate="INFO_FIELD_REQUIRED_ID">
+                      </div>
+                      <div ng-message='md-maxlength' ng-show="gameCreateForm.gamePackageName.$error['md-maxlength']"
+                           translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="254">
+                      </div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </div>
+
+              <div flex="50" layout-align="space-around center">
+                <div flex="100" layout="column">
+                  <md-input-container class="md-block md-has-icon">
+                    <label><span translate="GAME_SERVICE_ID"></span>
+                      <small class="md-caption">*</small>
+                    </label>
+                    <ng-md-icon icon="perm_device_information"></ng-md-icon>
+                    <input ng-model="gameCtrl.game.game_service_id" name="serviceIDInput" md-maxlength="254" required>
+                    <div ng-messages="gameCreateForm.serviceIDInput.$error">
+                      <div ng-message='required' ng-show="gameCreateForm.serviceIDInput.$error.required" translate="INFO_FIELD_REQUIRED_ID">
+                      </div>
+                      <div ng-message='md-maxlength' ng-show="gameCreateForm.serviceIDInput.$error['md-maxlength']"
+                           translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="254">
+                      </div>
+                    </div>
+                  </md-input-container>
+                </div>
+              </div>
+            </div>
+
+            <div layout="column" class="gmm-margin-top-negative-40">
+              <md-input-container flex class="md-has-icon" name="analyticsInput">
+                <label translate="ANALYTICS_VIEW_ID"></label>
+                <ng-md-icon icon="show_chart"></ng-md-icon>
+                <input type="text" pattern="[0-9]*" minlength="9" ng-model="gameCtrl.game.analytics_view_id" md-maxlength="254" name="gameLinkToAnalytics">
+                <div ng-messages="gameCreateForm.gameLinkToAnalytics.$error">
+                  <div ng-message='minlength' ng-show="gameCreateForm.gameLinkToAnalytics.$error.minlength"
+                       translate="INFO_FIELD_MIN_LENGTH_ID" translate-value-number="9">
+                  </div>
+                  <div ng-message='md-maxlength' ng-show="gameCreateForm.gameLinkToAnalytics.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="254">
+                  </div>
+                  <div ng-message='pattern' ng-show="gameCreateForm.gameLinkToAnalytics.$error.pattern"
+                       translate="ONLY_NUMBERS_ALLOWED_ID">
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <md-divider class="md-padding gmm-margin-top-negative">
+              <small class="md-caption" translate="GAME_ICON_ID"></small>
+            </md-divider>
+
+            <div layout="row">
+              <div flex="60" flex-offset="15">
+                <gmm-upload gmm-upload-controller="gameCtrl"
+                            ng-model="gameCtrl.image"
+                            ng-change="gameCtrl.changeUpload"
+                            show-progress="gameCtrl.showProgress"
+                            view-image="gameCtrl.viewImage"
+                            image-found="gameCtrl.imageNotFound">
+
+                  <gmm-upload-content>
+                    <md-input-container md-no-float class="md-block" ng-class="gameCreateForm.imageUrl.$error.url && gameCreateForm.imageUrl.$touched && gameCtrl.image == null ? 'md-input-invalid' : ''">
+                      <input type="url" min="3" md-maxlength="254" name="imageUrl"
+                             ng-model="gameCtrl.game.game_image"
+                             ng-change="gameCtrl.changeImageUrl()"
+                             placeholder="{{'IMAGE_URL_ID' | translate}}" ng-disabled="gameCtrl.image != null">
+                      <div ng-messages="gameCreateForm.imageUrl.$error">
+                        <div ng-message="url" ng-show="gameCreateForm.imageUrl.$error.url && gameCreateForm.imageUrl.$touched && gameCtrl.image == null">Enter a valid URL.</div>
+                      </div>
+                    </md-input-container>
+                  </gmm-upload-content>
+
+                  <gmm-upload-actions>
+                    <md-button ng-click="gameCtrl.clearImage(gameCreateForm)" class="md-icon-button" aria-label="delete">
+                      <ng-md-icon icon="delete"></ng-md-icon>
+                    </md-button>
+                  </gmm-upload-actions>
+                </gmm-upload>
+
+              </div>
+              <div flex></div>
+            </div>
+
+            <md-divider class="md-padding gmm-margin-top">
+              <small class="md-caption" translate="CAMPAIGN_CONFIGURATION_ID"></small>
+            </md-divider>
+
+            <div ng-cloak class="md-whiteframe-5dp">
+              <md-content>
+                <md-tabs md-dynamic-height md-border-bottom>
+                  <md-tab label="{{'FORM_ID' | translate}}">
+                    <div layout="row" layout-align="center center" class="message-validate">{{gameCtrl.validate | translate}}</div>
+                    <md-content class="md-padding">
+                      <gmm-form-generetor ng-model="gameCtrl.structure"></gmm-form-generetor>
+                    </md-content>
+                  </md-tab>
+                  <md-tab label="{{'PREVIEW_ID' | translate}}">
+                    <md-content class="md-padding">
+                      <gmm-form-fill ng-model="gameCtrl.structure.dropzones" form-disable="true" form-json="{}">
+                      </gmm-form-fill>
+                    </md-content>
+                  </md-tab>
+                </md-tabs>
+              </md-content>
+            </div>
+
+
+            <br>
+            <md-divider class="md-padding gmm-margin-top">
+              <small class="md-caption" translate="PUSH_CONFIGURATION_ID"></small>
+            </md-divider>
+
+            <div layout="row">
+              <form name="formStructure">
+                <md-input-container class="md-block md-has-icon" flex-gt-sm>
+                  <label translate="STRUCTURE_NAME_ID"></label>
+                  <ng-md-icon icon="receipt"></ng-md-icon>
+                  <input name="name" ng-model="gameCtrl.pushStructureName " minlength="3" md-maxlength="50">
+                </md-input-container>
+                <md-button class="md-raised md-primary max-height-button"
+                           aria-label="addStructure"
+                           ng-disabled="!gameCtrl.pushStructureName || !gameCtrl.verifyPushConfigurationName()"
+                           ng-click="gameCtrl.addPushStructure(gameCtrl.pushStructureName)" translate="ADD_STRUCTURE_ID">
+                </md-button>
+              </form>
+            </div>
+
+            <div ng-repeat="pushStructure in gameCtrl.pushStructures | orderBy:'$index':true">
+              <div ng-cloak class="md-whiteframe-5dp">
+                <md-content>
+                  <div layout="row" class="menu-form-cofiguration">
+                    <md-button ng-click="gameCtrl.showDialog($event, pushStructure)" class="md-icon-button"
+                               aria-label="delete">
+                      <md-tooltip md-direction="top"><span translate="RENAME_FORM_ID"></span></md-tooltip>
+                      <ng-md-icon icon="edit"></ng-md-icon>
+                    </md-button>
+                    <md-button ng-click="gameCtrl.removePushStructure(pushStructure)" class="md-icon-button"
+                               aria-label="delete">
+                      <md-tooltip md-direction="top"><span translate="DELETE_FORM_ID"></span></md-tooltip>
+                      <ng-md-icon icon="delete"></ng-md-icon>
+                    </md-button>
+                  </div>
+                  <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label="{{pushStructure.name}} *">
+                      <div id="push-structure-{{gameCtrl.getIndex(pushStructure)}}" layout="row" layout-align="center center" class="message-validate">{{gameCtrl.validate | translate}}</div>
+                      <md-content class="md-padding">
+                        <gmm-form-generetor ng-model="pushStructure"></gmm-form-generetor>
+                      </md-content>
+                    </md-tab>
+                    <md-tab label="{{'PREVIEW_ID' | translate}}">
+                      <md-content class="md-padding">
+                        <gmm-form-fill type="'push'"
+                                       ng-model="pushStructure.dropzones"
+                                       form-disable="true"
+                                       form-json="{}">
+                        </gmm-form-fill>
+                      </md-content>
+                    </md-tab>
+                  </md-tabs>
+                </md-content>
+              </div>
+            </div>
+
+            <div class="md-padding" layout="row" layout-align="end center">
+              <button ng-disabled="gameCtrl.disabled()" ladda="gameCtrl.buttonSave" ng-click="gameCtrl.save($event)"
+                      data-spinner-size="30" data-style="expand-left">
+                {{gameCtrl.buttonText | translate}}
+              </button>
+              <md-button md-no-ink ng-click="gameCtrl.cancel($event)" class="md-primary" translate="CANCEL_ID" aria-label="cancelGame"></md-button>
+            </div>
+          </div>
+        </form>
+      </md-content>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,321 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+
+    <div layout="row" class="md-whiteframe-1dp filter-log" ng-show="bannerCtlList.showFilter()">
+      <div layout="column" class="filter-log-item" ng-show="bannerCtlList.banners.length > 0">
+        <h4 translate="BANNERS_ID"></h4>
+
+        <div ng-repeat="banner in bannerCtlList.banners">
+          <span class="no-select">{{banner.banner_configuration_name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="bannerCtlList.games.length > 0">
+        <h4 translate="GAMES_ID"></h4>
+
+        <div ng-repeat="game in bannerCtlList.games">
+          <span class="no-select">{{game.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="bannerCtlList.regions.length > 0">
+        <h4 translate="REGIONS_ID"></h4>
+
+        <div ng-repeat="region in bannerCtlList.regions">
+          <span class="no-select">{{region.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="bannerCtlList.campaigns.length > 0">
+        <h4 translate="CAMPAIGNS_ID"></h4>
+
+        <div ng-repeat="campaign in bannerCtlList.campaigns">
+          <span class="no-select">{{campaign.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="bannerCtlList.status != 'all'">
+        <h4 translate="STATUS_ID"></h4>
+        <span class="no-select">{{bannerCtlList.status}}</span>
+      </div>
+      <div flex></div>
+      <md-button ng-click="bannerCtlList.clearFilter()" class="md-primary" aria-label="crearFilter"
+                 translate="CLEAR_FILTER_ID"></md-button>
+    </div>
+
+    <div ng-show="bannerCtlList.list.length === 0" layout="column" layout-align="center center">
+      <div class="div-there-nothing" align="center" layout-align="center center">
+        <ng-md-icon icon="filter" size="80" class="img_menu"></ng-md-icon>
+      </div>
+      <span class="there-nothing" translate="INFO_NO_BANNER_ID"></span>
+    </div>
+
+    <div ng-show="bannerCtlList.list.length > 0">
+      <div layout="row" layout-wrap layout-align="start center" infinite-scroll="bannerCtlList.nextList()">
+        <div flex="auto" ng-repeat="banner in bannerCtlList.list">
+          <md-card class="card-list-banner" layout="column">
+            <div flex="40" layout="row" layout-align="center center" class="banner-image-container card-image-content">
+              <uib-carousel class="card-image-content" interval="bannerCtlList.slideInterval" no-wrap="false" flex="100"
+                            layout="row" layout-align="center center" no-transition="true">
+                <uib-slide ng-repeat="banner in banner.banners" flex="100">
+
+                  <img ng-src="{{banner.image_url}}" class="banner-card-item-list ng-scope">
+
+                  <div class="carousel-caption">
+                    <div hidden>
+                      {{$scope.slide_active = slide.active}}
+                      {{$scope.slide_index = ($index + 1)}}
+                    </div>
+                  </div>
+                </uib-slide>
+              </uib-carousel>
+            </div>
+
+            <div flex="50" class="card-list-banner-content" ng-click="bannerCtlList.showDialog($event, banner)">
+              <div layout="row">
+                <h3 class="truncate-long-texts">{{banner.banner_configuration_name}}</h3>
+
+                <h3 class="card-warn padding-left"><i>({{banner.banners.length}})</i></h3>
+              </div>
+              <div layout="column">
+                <small class=".truncate-long-texts">
+                  <span translate="CAMPAIGNS_ID"></span>
+
+                  <span ng-if="bannerCtlList.getCampaignsNames(banner).length === 0" class="no-entity-associated">
+                    &nbsp{{'NO_CAMPAIGN_ASSOCIATED_ID' | translate}}
+                  </span>
+                  <span ng-if="bannerCtlList.getCampaignsNames(banner).length > 0">
+                    &nbsp{{bannerCtlList.getCampaignsNames(banner)}}
+                  </span>
+
+                </small>
+
+                <small class=".truncate-long-texts">
+                  <span translate="BEGIN_DATE_ID"></span>
+                  <span ng-if="banner.begin_date"> &nbsp{{banner.begin_date | date:'medium'}}</span>
+                  <span class="no-entity-associated"
+                        ng-if="!banner.begin_date">&nbsp{{'NO_DATES_ID' | translate}}</span>
+                </small>
+
+                <small class=".truncate-long-texts">
+                  <span translate="END_DATE_ID"></span>
+                  <span ng-if="banner.end_date">&nbsp{{banner.end_date | date:'medium'}}</span>
+                  <span class="no-entity-associated" ng-if="!banner.end_date">&nbsp{{'NO_DATES_ID' | translate}}</span>
+                </small>
+
+                <small class=".truncate-long-texts">
+                  <span ng-if="bannerCtlList.getStatus(banner) == 'IT_HAS_BEEN_EXPIRED_ID'"
+                        translate="STATUS_ID"></span>
+                   <span ng-if="bannerCtlList.getStatus(banner) == 'IT_HAS_BEEN_EXPIRED_ID'" style="color: #FF0000">
+                      &nbsp{{bannerCtlList.getStatus(banner) | translate}}
+                    </span>
+                </small>
+
+                <small class=".truncate-long-texts">
+                  <span translate="GAMES_ID"></span>&nbsp{{bannerCtlList.getGamesNames(banner)}}
+                </small>
+
+                <div layout="row" layout-wrap layout-align="start center">
+
+                  <div layout="row" layout-align="start center" flex="50"
+                       ng-repeat="region in banner.regions | limitTo:4">
+
+                    <div layout="row" layout-align="start center" ng-if="region.countries.length <= 1">
+                    <span
+                      class="flag-icon flag-icon-squared flag-icon-{{bannerCtlList.lowercaseCountryCode(region.countries[0].country_code)}}">
+                    </span>
+                      <span class="truncate-long-texts" layout-padding>{{ region.countries[0].country_name }}</span>
+                      <span ng-if="banner.regions.length >= 5 && $index === 3">...</span>
+                    </div>
+
+                    <div layout="row" layout-align="start center" ng-if="region.countries.length > 1">
+                      <div flex="20" layout="row" layout-align="center center" class="circle circle-list"
+                           ng-attr-style="background: {{region.color}}">
+                        <span>{{region.name.charAt(0)}}</span>
+                      </div>
+                      <div class="truncate-long-texts" flex="80">
+                        <span layout-padding>{{region.name}}
+                          <em ng-if="banner.regions.length >= 5 && $index === 3">...
+                            <i class="card-warn">({{banner.regions.length - 4}})</i>
+                          </em>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <md-card-actions ng-click="bannerCtlList.showDialog($event, banner)">
+              <div layout="row">
+                <div flex="60" layout-align="start end">
+                  <span translate="LAST_UPDATE_ID"></span><br/>
+                  <spam class="card-last-update">&nbsp{{banner.modified_date | date:'medium'}}</spam>
+                </div>
+                <div flex="40" align="end">
+                  <spam ng-show="banner.active" class="status-banner" translate="ENABLED_ID"></spam>
+                  <spam ng-show="!banner.active" class="status-banner" translate="DISABLED_ID"></spam>
+                </div>
+              </div>
+            </md-card-actions>
+          </md-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<gmm-fab tooltip="'NEW_BANNER_ID' | translate" stage-go="'home.banner.create'"
+         gmm-fab-controller="bannerCtlList.export">
+  <gmm-fab-actions>
+    <md-button aria-label="export" class="md-fab md-raised md-mini" ng-csv="gmmFabController.getCsvExport()"
+               filename="{{gmmFabController.fileName}}" csv-header="gmmFabController.bannerHeader()">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">
+        <span translate="EXPORT_CSV_ID"></span>
+      </md-tooltip>
+      <ng-md-icon icon="archive" aria-label="csv" style="fill: #0d47a1"></ng-md-icon>
+    </md-button>
+  </gmm-fab-actions>
+</gmm-fab>
+
+<md-sidenav class="md-sidenav-right md-whiteframe-4dp sidenav-filter" md-component-id="right">
+  <md-toolbar class="md-theme-light md-primary-gmm">
+    <h1 class="md-toolbar-tools" translate="FILTER_BANNER_ID"></h1>
+  </md-toolbar>
+  <md-content layout-padding>
+    <md-content layout="column">
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="bannerCtlList.banners.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="BANNERS_ID"></label>
+        <md-chips ng-model="bannerCtlList.banners" md-autocomplete-snap md-require-match="true"
+                  md-on-add="bannerCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove" ng-click="bannerCtlList.removeBanner($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-input-name="banners-autocomplete"
+            md-search-text="bannerCtlList.searchBannerText"
+            md-items="banner in bannerCtlList.querySearchBanner(bannerCtlList.searchBannerText)"
+            md-item-text="banner"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="bannerCtlList.searchBannerText">{{ banner.banner_configuration_name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                  <span>
+                    <em>{{$chip.banner_configuration_name}}</em>
+                  </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="bannerCtlList.games.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="GAMES_ID"></label>
+        <md-chips ng-model="bannerCtlList.games" md-autocomplete-snap md-require-match="true"
+                  md-on-add="bannerCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove" ng-click="bannerCtlList.removeGame($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-input-name="games-autocomplete"
+            md-search-text="bannerCtlList.searchGameText"
+            md-items="game in bannerCtlList.querySearchGame(bannerCtlList.searchGameText)"
+            md-item-text="game"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="bannerCtlList.searchGameText">{{ game.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                  <span>
+                    <em>{{$chip.name}}</em>
+                  </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="bannerCtlList.regions.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="REGIONS_ID"></label>
+        <md-chips ng-model="bannerCtlList.regions" md-autocomplete-snap md-require-match="true"
+                  md-on-add="bannerCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove"
+                  ng-click="bannerCtlList.removeRegion($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-search-text="bannerCtlList.searchRegionText"
+            md-items="region in bannerCtlList.querySearchRegion(bannerCtlList.searchRegionText)"
+            md-item-text="region"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="bannerCtlList.searchRegionText">{{ region.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="bannerCtlList.campaigns.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="CAMPAIGNS_ID"></label>
+        <md-chips ng-model="bannerCtlList.campaigns" md-autocomplete-snap md-require-match="true"
+                  md-on-add="bannerCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove" ng-click="bannerCtlList.removeCampaign($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-search-text="bannerCtlList.searchCampaignText"
+            md-items="campaign in bannerCtlList.querySearchCampaign(bannerCtlList.searchCampaignText)"
+            md-item-text="campaign"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="bannerCtlList.searchCampaignText">{{ campaign.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label translate="FILTER_STATUS_ID"></label>
+        <md-select name="bannerCtlList.status"
+                   ng-model="bannerCtlList.status"
+                   md-on-open="bannerCtlList.filterStatus()"
+                   md-on-close="bannerCtlList.filter()" required>
+          <md-option ng-select="status" ng-value="status.key" ng-repeat="status in bannerCtlList.statusList">
+            {{status.value}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <div layout="row" flex>
+        <md-input-container flex="80" class="md-block">
+          <label translate="ORDER_ID"></label>
+          <md-select name="bannerCtlList.lastField"
+                     ng-model="bannerCtlList.lastField"
+                     md-on-open="bannerCtlList.ordinations()"
+                     md-on-close="bannerCtlList.filter()" required>
+            <md-option ng-select="order" ng-value="order.key" ng-repeat="order in bannerCtlList.ordersList">
+              {{order.value}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container flex="20" class="md-block">
+          <md-checkbox flex="auto" ng-change="bannerCtlList.filter()" ng-model="bannerCtlList.ascendant"
+                       aria-label="desc">
+            <span translate="DESC_ID"></span>
+          </md-checkbox>
+        </md-input-container>
+      </div>
+    </md-content>
+
+    <div layout="row" layout-align="center center">
+      <md-button ng-click="bannerCtlList.clearFilter()" class="md-primary" aria-label="clear"
+                 translate="CLEAR_ID"></md-button>
+      <md-button ng-click="bannerCtlList.closeSidenavFilter()" class="md-primary" aria-label="close"
+                 translate="CLOSE_ID"></md-button>
+    </div>
+  </md-content>
+</md-sidenav>

@@ -1,0 +1,150 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+    <md-content layout-padding layout="column">
+      <form name="pushCreateForm">
+        <div layout="row" layout-align="end center">
+          <p>
+            <small class="md-caption" translate="REQUIRED_FIELDS_ID"></small>
+          </p>
+        </div>
+
+        <div layout="column">
+          <md-input-container flex
+                              class="md-has-icon md-has-chip"
+                              ng-class="[pushCreateForm['games-autocomplete'].$touched && pushCtrl.games.length == 0 ? 'md-input-invalid' : '', pushCtrl.games.length > 0 ? 'label-chips-active': '']">
+            <label class="label-chips">{{'GAMES_ID' | translate}}
+              <small class="md-caption">*</small>
+            </label>
+            <ng-md-icon icon="vidiogame_asset"></ng-md-icon>
+            <md-chips ng-model="pushCtrl.games" md-autocomplete-snap
+                      md-on-add="pushCtrl.changeGame($chip)">
+              <button md-chip-remove class="md-primary md-chip-remove" ng-click="pushCtrl.removeGame($chip)">
+                <md-icon md-svg-icon="md-close"></md-icon>
+              </button>
+              <md-autocomplete
+                md-input-name="games-autocomplete"
+                md-search-text="pushCtrl.searchGameText"
+                md-items="game in pushCtrl.querySearchGame(pushCtrl.searchGameText)"
+                md-item-text="game"
+                md-min-length="1"
+                md-delay="300">
+                <span md-highlight-text="pushCtrl.searchGameText">{{ game.name }}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                  <span>
+                    <em>{{$chip.name}}</em>
+                  </span>
+              </md-chip-template>
+            </md-chips>
+            <div class="gmm-banner-chips"
+                 ng-show="pushCreateForm['games-autocomplete'].$touched && pushCtrl.games.length == 0"
+                 translate="INFO_FIELD_REQUIRED_ID">
+            </div>
+          </md-input-container>
+        </div>
+        <div layout="column">
+          <md-input-container flex
+                              class="md-has-icon md-has-chip"
+                              ng-class="pushCtrl.regions.length > 0 ? 'label-chips-active': ''">
+            <label class="label-chips" translate="REGIONS_ID"></label>
+            <ng-md-icon icon="room"></ng-md-icon>
+            <md-chips ng-model="pushCtrl.regions" md-autocomplete-snap
+                      md-on-add="pushCtrl.filterChange()">
+              <button md-chip-remove class="md-primary md-chip-remove" ng-click="pushCtrl.removeRegion($chip)">
+                <md-icon md-svg-icon="md-close"></md-icon>
+              </button>
+              <md-autocomplete
+                md-search-text="pushCtrl.searchRegionText"
+                md-items="region in pushCtrl.querySearchRegion(pushCtrl.searchRegionText)"
+                md-item-text="region"
+                md-min-length="1"
+                md-delay="300">
+                <span md-highlight-text="pushCtrl.searchRegionText">{{ region.name }}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+              </md-chip-template>
+            </md-chips>
+          </md-input-container>
+        </div>
+        <div layout="column">
+          <md-input-container flex
+                              class="md-has-icon md-has-chip"
+                              ng-class="pushCtrl.campaigns.length > 0 ? 'label-chips-active': ''">
+            <label class="label-chips" translate="CAMPAIGNS_ID"></label>
+            <ng-md-icon icon="filter_none"></ng-md-icon>
+            <md-chips ng-model="pushCtrl.campaigns" md-autocomplete-snap
+                      md-on-add="pushCtrl.filterChange()">
+              <button md-chip-remove class="md-primary md-chip-remove" ng-click="pushCtrl.removeCampaign($chip)">
+                <md-icon md-svg-icon="md-close"></md-icon>
+              </button>
+              <md-autocomplete
+                md-search-text="pushCtrl.searchCampaignText"
+                md-items="campaign in pushCtrl.querySearchCampaign(pushCtrl.searchCampaignText)"
+                md-item-text="campaign"
+                md-min-length="1"
+                md-delay="300">
+                <span md-highlight-text="pushCtrl.searchCampaignText">{{ campaign.name }}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+              </md-chip-template>
+            </md-chips>
+          </md-input-container>
+        </div>
+
+        <div layout="column">
+          <md-divider class="md-padding">
+            <small class="md-caption-period" translate="PERIOD_ACTIVITY_ID"></small>
+          </md-divider>
+
+          <div flex="50">
+            <div layout="row" class="md-padding">
+              <div flex="50">
+                <gmm-date date-name="'BEGIN_DATE_ID' | translate" filter="pushCtrl.filterChange()"
+                          ng-model="pushCtrl.beginDateTime">
+                </gmm-date>
+              </div>
+              <div flex="50">
+                <gmm-date date-name="'END_DATE_ID' | translate" filter="pushCtrl.filterChange()"
+                          ng-model="pushCtrl.endDateTime">
+                </gmm-date>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <md-tabs md-dynamic-height md-border-bottom md-autoselect ng-if="pushCtrl.games.length > 0">
+          <md-tab label="{{game.name}}" id="{{game.id}}"
+                  ng-repeat="game in pushCtrl.games"
+                  md-on-select="pushCtrl.onSelect($index)"
+                  md-on-deselect="pushCtrl.onDeselect($index)">
+
+            <gmm-multi-push game="game" on-add="pushCtrl.onAddPush" on-remove="pushCtrl.onRemove"></gmm-multi-push>
+
+          </md-tab>
+        </md-tabs>
+
+        <div layout="row" flex>
+          <div layout="row" layout-align="start center">
+            <md-button md-no-ink class="md-primary" ng-click="pushCtrl.showDialogPushDetails($event)">
+              {{'TOTAL_ID' | translate}}:&nbsp;{{pushCtrl.total}}
+            </md-button>
+          </div>
+          <div layout="row" flex layout-align="end center">
+            <button ng-disabled="pushCtrl.disablePush()" ladda="pushCtrl.buttonSave" data-spinner-size="30"
+                    ng-click="pushCtrl.sendMessagePush($event)" data-style="expand-left">
+              {{pushCtrl.buttonText}}
+            </button>
+            <md-button md-no-ink ng-click="pushCtrl.cancel($event)" class="md-primary" aria-label="btCancel"
+                       translate="CANCEL_ID"></md-button>
+          </div>
+        </div>
+      </form>
+    </md-content>
+  </div>
+</div>

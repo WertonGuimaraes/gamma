@@ -1,0 +1,24 @@
+<div ng-if="isArray(getFirstChild(child))" class="gmm-form-generator-conteiner md-whiteframe-z1">
+  <md-toolbar ng-init="msnTootip = getDescription(getKeyName(child))">
+    <md-tooltip class="md-tooltip-config" ng-if="msnTootip != null" md-direction="top">
+      {{msnTootip}}
+    </md-tooltip>
+    <div class="md-toolbar-tools">
+      <h3>{{getKeyName(child)}}</h3>
+    </div>
+  </md-toolbar>
+  <br>
+  <div ng-repeat="ch in getFirstChild(child)">
+    <form-generator child="ch" model="getFirstChild(child)" disable-option="disableOption"
+                    index="$index"></form-generator>
+  </div>
+</div>
+<div ng-if="!isArray(getFirstChild(child))">
+  <div class="gmm-form-generator-input">
+    <md-input-container>
+      <label>{{getKeyName(child)}}</label>
+      <input type="text" ng-model="model[index][getKeyName(child)]" aria-label="getKeyName(child)"
+             ng-disabled="disableOption" required/>
+    </md-input-container>
+  </div>
+</div>

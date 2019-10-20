@@ -1,0 +1,69 @@
+<div ng-cloak class="background-default" layout="column" ng-controller="HomeController as homeCtrl">
+
+  <div id="embed-api-auth-container"></div>
+
+  <search-toolbar class="search-toolbar" home-ctrl="homeCtrl"></search-toolbar>
+  <div ui-view="toolbar"></div>
+  <md-progress-linear id="progressLinear" hidden md-mode="indeterminate"></md-progress-linear>
+
+  <div class="container" layout="row" flex>
+    <md-sidenav
+      ng-click="homeCtrl.toggleList()"
+      md-component-id="left"
+      md-is-locked-open="$mdMedia('gt-sm')"
+      class="md-whiteframe-4dp side-menu">
+
+      <md-list>
+        <md-button id="menuBannerBtn" name="banner" data-ui-sref="home.banner.list" aria-label="banners"
+                   data-ui-sref-opts="{reload: true, inherit: true}">
+          <ng-md-icon icon="filter" class="img_menu"></ng-md-icon>
+          <span translate="BANNERS_ID"></span>
+        </md-button>
+
+        <md-button id="menuCampaignBtn" name="campaign" data-ui-sref="home.campaign.list" aria-label="campaigns"
+                   data-ui-sref-opts="{reload: true, inherit: true}">
+          <ng-md-icon icon="filter_none" class="img_menu"></ng-md-icon>
+          <span translate="CAMPAIGNS_ID"></span>
+        </md-button>
+
+        <md-button id="menuGameBtn" name="game" data-ui-sref="home.game.list" aria-label="games"
+                   data-ui-sref-opts="{reload: true, inherit: true}">
+          <ng-md-icon icon="vidiogame_asset" class="img_menu"></ng-md-icon>
+          <span translate="GAMES_ID"></span>
+        </md-button>
+
+        <md-button id="menuPlayersBtn" name="players" data-ui-sref="home.players.list" aria-label="players"
+                   data-ui-sref-opts="{reload: true, inherit: true}">
+          <ng-md-icon icon="people" class="img_menu"></ng-md-icon>
+          <span translate="PLAYERS_ID"></span>
+        </md-button>
+
+        <md-button id="menuPushBtn" name="push" data-ui-sref="home.push.list" aria-label="push"
+                   data-ui-sref-opts="{reload: true, inherit: true}">
+          <ng-md-icon icon="system_update" class="img_menu"></ng-md-icon>
+          <span translate="PUSH_ID"></span>
+        </md-button>
+
+        <md-button id="menuRegionBtn" name="settings" data-ui-sref="home.settings.list" aria-label="settings"
+                   data-ui-sref-opts="{reload: true}">
+          <ng-md-icon icon="settings" class="img_menu"></ng-md-icon>
+          <span translate="SETTINGS_ID"></span>
+        </md-button>
+      </md-list>
+
+      <span flex></span>
+
+      <div layout="row" class="sidenav-user" layout-align="center center">
+        <img flex="30" ng-src="../../../assets/img/ic_face_user.svg" alt="{{homeCtrl.user}}" class="md-avatar">
+        <small flex="70">{{homeCtrl.user}}</small>
+      </div>
+
+
+    </md-sidenav>
+
+    <div flex id="content">
+      <div ui-view></div>
+    </div>
+  </div>
+</div>
+

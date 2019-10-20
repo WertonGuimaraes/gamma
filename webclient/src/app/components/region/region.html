@@ -1,0 +1,94 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+    <md-content layout-padding>
+      <form name="regionForm">
+        <div layout="column">
+          <div layout="row" layout-align="end center">
+            <p>
+              <small class="md-caption" translate="REQUIRED_FIELDS_ID"></small>
+            </p>
+          </div>
+          <div layout="column">
+            <div class="md-padding" layout-align="space-around center">
+              <md-input-container class="md-block md-has-icon">
+                <label>{{'NAME_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="description"></ng-md-icon>
+                <input md-maxlength="50" required name="regionName" ng-model="regionCtrl.region.name">
+                <div ng-messages="regionForm.regionName.$error">
+                  <div ng-message="required" ng-show="regionForm.regionName.$touched && regionForm.regionName.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div ng-message="md-maxlength" ng-show="regionForm.regionName.$touched && regionForm.regionName.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="50"></div>
+                </div>
+              </md-input-container>
+            </div>
+            <div layout-align="space-around center" class="gmm-margin-top-negative-70">
+              <md-content class="md-padding" layout="column">
+                <md-input-container flex
+                                    class="md-has-icon md-has-chip gmm-margin-top-1"
+                                    ng-class="[regionForm['countries-autocomplete'].$touched && (regionCtrl.regions.length == 0 || regionCtrl.regions.length == 1) ? 'md-input-invalid' : '',
+                                              regionCtrl.regions.length > 0 || regionCtrl.regions.length == 1 ? 'label-chips-active': '']">
+                  <label class="label-chips">{{'COUNTRIES_ID' | translate}}
+                    <small class="md-caption">*</small>
+                  </label>
+                  <ng-md-icon icon="public"></ng-md-icon>
+                  <md-chips ng-model="regionCtrl.regions" md-autocomplete-snap md-require-match="true">
+                    <md-autocomplete
+                      md-input-name="countries-autocomplete"
+                      md-search-text="regionCtrl.searchText"
+                      md-items="country in regionCtrl.querySearch(regionCtrl.searchText)"
+                      md-item-text="country.name"
+                      md-min-length="1"
+                      md-delay="300">
+                      <span md-highlight-text="regionCtrl.searchText">{{country.country_name}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                      <span>
+                        <em>{{$chip.country_name}}</em>
+                      </span>
+                    </md-chip-template>
+                  </md-chips>
+                  <div class="gmm-banner-chips" ng-show="regionForm['countries-autocomplete'].$touched && regionCtrl.regions.length == 0"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div class="gmm-banner-chips" ng-show="regionForm['countries-autocomplete'].$touched && regionCtrl.regions.length == 1"
+                       translate="INFO_MUST_HAVE_AT_LEAST_TWO_COUNTRIES_ID"></div>
+                </md-input-container>
+              </md-content>
+            </div>
+            <div layout="row" layout-align="start center">
+              <div flex="50" layout="row" layout-align="start center" class="md-padding">
+                <label>{{'SELECT_COLOR_ID' | translate}}
+                  <small class="md-caption">*</small>
+                  :</label>
+                <md-button colorpicker type="button" colorpicker-position="top"
+                           ng-model="regionCtrl.region.color" class="md-icon-button md-accent"
+                           aria-label="Change Color">
+                  <ng-md-icon icon="color_lens"></ng-md-icon>
+                </md-button>
+              </div>
+              <div flex="50">
+                <div layout="row" layout-align="center center" class="circle"
+                     ng-attr-style="background: {{regionCtrl.region.color}}">
+                  <span>{{regionCtrl.region.name.charAt(0)}}</span>
+                </div>
+              </div>
+            </div>
+            <div layout="column" class="md-padding">
+              <md-divider class="md-padding">
+              </md-divider>
+            </div>
+          </div>
+          <div layout="row" layout-align="end center">
+            <button ng-disabled="regionCtrl.disabled()" ladda="regionCtrl.buttonSave" ng-click="regionCtrl.save($event)"
+                    data-spinner-size="30" data-style="expand-left">
+              {{regionCtrl.buttonText | translate}}
+            </button>
+            <md-button md-no-ink ng-click="regionCtrl.cancel($event)" class="md-primary">{{'CANCEL_ID' | translate}}</md-button>
+          </div>
+        </div>
+      </form>
+    </md-content>
+  </div>
+</div>

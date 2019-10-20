@@ -1,0 +1,73 @@
+<md-dialog class="md-dialog-show" aria-label="Campaign configuration">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 translate="PUSH_CONFIGURATION_ID"></h2>
+      <span flex></span>
+      <md-button aria-label="close" class="md-icon-button" ng-click="dialogCtrl.cancel()">
+        <ng-md-icon icon="close"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content layout-padding>
+
+    <div>
+      <div flex="100" layout="column">
+        <md-input-container flex class="md-has-icon">
+          <label translate="SELECT_CONFIGURATION_ID"></label>
+          <ng-md-icon icon="receipt"></ng-md-icon>
+          <md-select ng-model="dialogCtrl.pushConfig">
+            <md-option ng-select="pushTemplate"
+                       ng-repeat="pushTemplate in dialogCtrl.game.pushTemplatesAux"
+                       ng-value="pushTemplate">
+              {{pushTemplate.name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div flex="50" layout="column" class="timezone-container">
+        <md-input-container flex class="md-has-icon" ng-click="timezoneRequired = true"
+                            ng-class="timezoneRequired && dialogCtrl.gmtTimezone == undefined && (dialogCtrl.beginDateTime || dialogCtrl.endDateTime) ? 'md-input-invalid': ''">
+          <label class="label-timezone"
+                 ng-class="dialogCtrl.gmtTimezone != undefined? 'label-active': ''">{{'TIMEZONE_ID' | translate}}
+            <small ng-if="dialogCtrl.beginDateTime || dialogCtrl.endDateTime" class="md-caption">*</small>
+          </label>
+          <ng-md-icon icon="schedule"></ng-md-icon>
+          <div layout="row">
+            <div flex="5">
+              <timezone-selector ng-model="dialogCtrl.gmtTimezone" display-utc="true"></timezone-selector>
+            </div>
+          </div>
+          <div class="gmm-banner-chips"
+               ng-show="timezoneRequired && dialogCtrl.gmtTimezone == undefined && (dialogCtrl.beginDateTime || dialogCtrl.endDateTime)"
+               translate="INFO_FIELD_REQUIRED_ID">
+          </div>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+        <div flex="50">
+          <gmm-date date-name="'BEGIN_DATE_ID' | translate" ng-model="dialogCtrl.beginDateTime"></gmm-date>
+        </div>
+        <div flex="50">
+          <gmm-date date-name="'END_DATE_ID' | translate" ng-model="dialogCtrl.endDateTime"></gmm-date>
+        </div>
+      </div>
+    </div>
+
+    <gmm-form-fill
+      ng-if="dialogCtrl.pushConfig"
+      type="'push'"
+      ng-model="dialogCtrl.pushConfig.dropzones"
+      form-disable="true"
+      disable-option="false"
+      form-json="dialogCtrl.formJsonPush">
+    </gmm-form-fill>
+  </md-dialog-content>
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-disabled="dialogCtrl.disablePushTemplate()"
+               ng-click="dialogCtrl.addPushTemplate(dialogCtrl.pushConfig)" aria-label="btSave"
+               translate="SAVE_CONFIG_ID">
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

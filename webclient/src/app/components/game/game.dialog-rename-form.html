@@ -1,0 +1,22 @@
+<md-dialog class="md-dialog-show" aria-label="game-rename">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 translate="RENAME_FORM_PUSH_CONFIGURATION"></h2>
+      <span flex></span>
+      <md-button aria-label="close" class="md-icon-button" ng-click="dialogCtrl.cancel()">
+        <ng-md-icon icon="close"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <md-input-container md-no-float class="md-block md-padding">
+      <input name="name" ng-model="dialogCtrl.name" placeholder="Structure name" minlength="3"
+             md-maxlength="50" required>
+    </md-input-container>
+    <div layout="row">
+      <div flex></div>
+      <md-button ng-disabled="!dialogCtrl.name" ng-click="dialogCtrl.rename()" class="md-primary" aria-label="renamePush"
+                 translate="RENAME_ID"></md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>

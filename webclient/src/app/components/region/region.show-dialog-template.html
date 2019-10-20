@@ -1,0 +1,38 @@
+<md-dialog class="md-dialog-show" aria-label="Region">
+  <form>
+    <md-dialog-content>
+      <div class="card-list-banner-content">
+        <div layout="row">
+          <h3>{{dialogCtrl.region.name}}</h3>
+        </div>
+        <div layout="column">
+          <div layout="row" layout-wrap layout-align="start center">
+
+            <div layout="row" layout-align="start center" flex="50"
+                 ng-repeat="country in dialogCtrl.region.countries">
+
+              <div layout="row" layout-align="start center">
+                <span
+                  class="flag-icon flag-icon-squared flag-icon-{{dialogCtrl.lowercaseCountryCode(country.country_code)}}">
+                </span>
+                <span layout-padding>{{ country.country_name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <md-button layout-align="center center" class="md-icon-button close-dialog" ng-click="dialogCtrl.cancel()"
+                 aria-label="close" autofocus>
+        <ng-md-icon icon="close"></ng-md-icon>
+      </md-button>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="dialogCtrl.cancel()" layout-align="center center" class="md-icon-button" aria-label="Edit"
+                 ui-sref="home.settings.region.edit({regionId:dialogCtrl.region.id})">
+        <md-tooltip md-direction="top">{{'REGION_EDIT_ID' | translate}}</md-tooltip>
+        <ng-md-icon icon="mode_edit"></ng-md-icon>
+      </md-button>
+      <span flex></span>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

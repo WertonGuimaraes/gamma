@@ -1,0 +1,256 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+    <md-content layout-padding>
+      <form name="userForm">
+        <div layout="column">
+          <div layout="row" layout-align="end center">
+            <p>
+              <small class="md-caption" translate="REQUIRED_FIELDS_ID"></small>
+            </p>
+          </div>
+          <div layout="column">
+            <div layout="row">
+              <md-input-container class="md-has-icon" flex="50">
+                <label>{{'USER_FIRST_NAME_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="description"></ng-md-icon>
+                <input md-maxlength="30" required name="userFirstName" ng-model="userCtrl.user.first_name">
+                <div ng-messages="userForm.userFirstName.$error">
+                  <div ng-message="required" ng-show="userForm.userFirstName.$touched && userForm.userFirstName.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div ng-message="md-maxlength" ng-show="userForm.userFirstName.$touched && userForm.userFirstName.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="30"></div>
+                </div>
+              </md-input-container>
+
+              <md-input-container class="md-has-icon" flex="50">
+                <label>{{'USER_LAST_NAME_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="description"></ng-md-icon>
+                <input type="text" md-maxlength="30" required name="userLastName" ng-model="userCtrl.user.last_name">
+                <div ng-messages="userForm.userLastName.$error">
+                  <div ng-message="required" ng-show="userForm.userLastName.$touched && userForm.userLastName.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div ng-message="md-maxlength" ng-show="userForm.userLastName.$touched && userForm.userLastName.$error['md-maxlength']"
+                     translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="30"></div>
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row">
+              <md-input-container class="md-has-icon" flex="50">
+                <label>{{'USER_USERNAME_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="description"></ng-md-icon>
+                <input md-maxlength="30" required name="userUsername" ng-model="userCtrl.user.username">
+                <div ng-messages="userForm.userUsername.$error">
+                  <div ng-message="required" ng-show="userForm.userUsername.$touched && userForm.userUsername.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div ng-message="md-maxlength" ng-show="userForm.userUsername.$touched && userForm.userUsername.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="30"></div>
+                </div>
+              </md-input-container>
+
+              <md-input-container class="md-has-icon" flex="50">
+                <label>{{'EMAIL_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="email"></ng-md-icon>
+                <input type="email" md-maxlength="254" required name="userEmail" ng-model="userCtrl.user.email">
+                <div ng-messages="userForm.userEmail.$error">
+                  <div ng-message="required" ng-show="userForm.userEmail.$touched && userForm.userEmail.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID"></div>
+                  <div ng-message="email" ng-show="userForm.userEmail.$touched && userForm.userEmail.$error.email"
+                       translate="INFO_EMAIL_VALID_ID"></div>
+                </div>
+                <div ng-message="md-maxlength" ng-show="userForm.userEmail.$touched && userForm.userEmail.$error['md-maxlength']"
+                     translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="254"></div>
+              </md-input-container>
+            </div>
+
+            <div layout="row">
+              <md-input-container class="md-has-icon" flex="50">
+                <label>{{'USER_PASSWORD_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="vpn_key"></ng-md-icon>
+                <input required type="password" md-maxlength="128" ng-model="userCtrl.user.password"
+                       name="userPassword">
+
+                <div ng-messages="userForm.userPassword.$error && userForm.userPassword.$touched">
+                  <div ng-message='required'
+                       ng-show="userForm.userPassword.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID">
+                  </div>
+                  <div ng-message="md-maxlength" ng-show="userForm.userPassword.$touched && userForm.userPassword.$error['md-maxlength']"
+                       translate="INFO_FIELD_MAX_LENGTH_ID" translate-value-number="128"></div>
+                </div>
+              </md-input-container>
+
+              <md-input-container class="md-has-icon" flex="50"
+                                  ng-class="[userCtrl.classErrorPassword]">
+                <label>{{'USER_CONFIRM_PASSWORD_ID' | translate}}
+                  <small class="md-caption">*</small>
+                </label>
+                <ng-md-icon icon="vpn_key"></ng-md-icon>
+                <input required type="password" ng-model="userCtrl.confirmPassword"
+                       name="userConfirmPassword">
+
+                <div ng-messages="userForm.userConfirmPassword.$error && userForm.userConfirmPassword.$touched">
+                  <div ng-message='required'
+                       ng-show="userForm.userConfirmPassword.$error.required"
+                       translate="INFO_FIELD_REQUIRED_ID">
+                  </div>
+                </div>
+                <div class="gmm-banner-chips" ng-show="userCtrl.classErrorPassword == 'md-input-invalid'">
+                  {{'ERROR_PASSWORD_DOES_NOT_MATCH_ID' | translate}}
+                </div>
+              </md-input-container>
+            </div>
+
+            <div layout="row">
+              <md-input-container class="md-has-icon" flex="50">
+                <label translate="GROUP_ID"></label>
+                <ng-md-icon icon="group"></ng-md-icon>
+                <md-select ng-model="userCtrl.group"" ng-change="userCtrl.onChangeGroup()">
+                  <md-option ng-repeat="group in userCtrl.groups.results" value="{{group.name}}">
+                    {{group.name}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+
+            <md-divider class="md-padding">
+              <small class="md-caption" translate="PERMISSIONS_ID"></small>
+            </md-divider>
+
+            <div layout="row" layout-align="space-between">
+              <div layout="column" class="title-checkbox-top">
+                <p translate="VIEW_ID"></p>
+                <p translate="CREATE_ID"></p>
+                <p translate="UPDATE_ID"></p>
+              </div>
+
+
+              <div layout="column">
+                <b translate="BANNER_ID"></b>
+                <input id="view_bannerconfiguration"  type="checkbox" name="view_bannerconfiguration" class="checkbox-groups checkbox-custom">
+                <label for="view_bannerconfiguration" class="checkbox-custom-label"></label>
+                <input id="add_bannerconfiguration"  type="checkbox" name="add_bannerconfiguration"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_bannerconfiguration" class="checkbox-custom-label"></label>
+                <input id="change_bannerconfiguration"  type="checkbox" name="change_bannerconfiguration" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_bannerconfiguration" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="CAMPAIGN_ID"></b>
+                <input id="view_campaign"  type="checkbox" name="view_campaign" class="checkbox-groups checkbox-custom">
+                <label for="view_campaign" class="checkbox-custom-label"></label>
+                <input id="add_campaign"  type="checkbox" name="add_campaign"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_campaign" class="checkbox-custom-label"></label>
+                <input id="change_campaign"  type="checkbox" name="change_campaign" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_campaign" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="PARTICIPANT_ID"></b>
+                <input id="view_participation" type="checkbox" name="view_participation" class="checkbox-groups checkbox-custom">
+                <label for="view_participation" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="GAME_ID"></b>
+                <input id="view_game"  type="checkbox" name="view_game" class="checkbox-groups checkbox-custom">
+                <label for="view_game" class="checkbox-custom-label"></label>
+                <input id="add_game"  type="checkbox" name="add_game"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_game" class="checkbox-custom-label"></label>
+                <input id="change_game" type="checkbox" name="change_game" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_game" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="PLAYER_ID"></b>
+                <input id="view_device_user" type="checkbox" name="view_device_user" class="checkbox-groups checkbox-custom">
+                <label for="view_device_user" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="PUSH_ID"></b>
+                <input id="view_push" type="checkbox" name="view_push" class="checkbox-groups checkbox-custom">
+                <label for="view_push" class="checkbox-custom-label"></label>
+                <input id="add_push" type="checkbox" name="add_push"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_push" class="checkbox-custom-label"></label>
+                <input id="change_push" type="checkbox" name="change_push" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_push" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="REGION_ID"></b>
+                <input id="view_region" type="checkbox" name="view_region" class="checkbox-groups checkbox-custom">
+                <label for="view_region" class="checkbox-custom-label"></label>
+                <input id="add_region" type="checkbox" name="add_region"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_region" class="checkbox-custom-label"></label>
+                <input id="change_region" type="checkbox" name="change_region" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_region" class="checkbox-custom-label"></label>
+              </div>
+            </div>
+
+            <div layout="row" layout-align="space-between">
+              <div layout="column" class="title-checkbox-top">
+                <p translate="VIEW_ID"></p>
+                <p translate="CREATE_ID"></p>
+                <p translate="UPDATE_ID"></p>
+              </div>
+
+              <div layout="column">
+                <b translate="SYSTEM_SETTINGS_ID"></b>
+                <input id="view_settings" type="checkbox" name="view_settings" class="checkbox-groups checkbox-custom">
+                <label for="view_settings" class="checkbox-custom-label"></label>
+
+                <input id="change_settings" type="checkbox" name="change_settings" class="checkbox-groups-38 checkbox-custom">
+                <label for="change_settings" class="checkbox-custom-label checkbox-custom-label-top"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="USER_ID"></b>
+                <input id="view_user" type="checkbox" name="view_user" class="checkbox-groups checkbox-custom">
+                <label for="view_user" class="checkbox-custom-label"></label>
+                <input id="add_user" type="checkbox" name="add_user"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_user" class="checkbox-custom-label"></label>
+                <input id="change_user" type="checkbox" name="change_user" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_user" class="checkbox-custom-label"></label>
+              </div>
+
+              <div layout="column">
+                <b translate="GROUP_OF_USERS_ID"></b>
+                <input id="view_group" type="checkbox" name="view_group" class="checkbox-groups checkbox-custom">
+                <label for="view_group" class="checkbox-custom-label"></label>
+                <input id="add_group" type="checkbox" name="add_group"  class="checkbox-groups-10 checkbox-custom">
+                <label for="add_group" class="checkbox-custom-label"></label>
+                <input id="change_group" type="checkbox" name="change_group" class="checkbox-groups-10 checkbox-custom">
+                <label for="change_group" class="checkbox-custom-label"></label>
+              </div>
+            </div>
+
+            <md-button ng-model="userCtrl.master" class="button-select-all" ng-click="userCtrl.selectAllCheckBoxes()">Select All</md-button>
+
+            <div layout="column" class="md-padding">
+              <md-divider class="md-padding">
+              </md-divider>
+            </div>
+          </div>
+          <div layout="row" layout-align="end center">
+            <button ng-disabled="userCtrl.disabled()" ladda="userCtrl.buttonSave" ng-click="userCtrl.save($event)"
+                    data-spinner-size="30" data-style="expand-left">
+              {{userCtrl.buttonText | translate}}
+            </button>
+            <md-button md-no-ink ng-click="userCtrl.cancel($event)" class="md-primary">{{'CANCEL_ID' | translate}}</md-button>
+          </div>
+        </div>
+      </form>
+    </md-content>
+  </div>
+</div>

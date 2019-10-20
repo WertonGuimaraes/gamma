@@ -1,0 +1,48 @@
+<md-dialog class="md-dialog-show push-details-dialog" aria-label="Push">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'TOTAL_ID' | translate}}: {{dialogCtrl.pushDetails.count}}</h2>
+        <span flex></span>
+        <md-button aria-label="close" class="md-icon-button" ng-click="dialogCtrl.cancel()">
+          <ng-md-icon icon="close"></ng-md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+
+      <gmm-virtual-scroll scroll-list="dialogCtrl.pushDetails.results" max-count="dialogCtrl.pushDetails.count"
+                          scroll-action="dialogCtrl.scrollAction" transclude="dialogCtrl.lowercaseCountryCode">
+        <gmm-virtual-scroll-content>
+          <div flex="auto" class="md-toolbar-tools">
+          <span
+            class="flag-icon flag-icon-squared flag-icon-{{virtualScrollCtrl.transclude(item.location.location_country_code)}}">
+          </span>
+
+            <div flex="20">
+              <h4 class="truncate-long-texts">
+                <span>{{item.game.name}}</span>
+              </h4>
+            </div>
+            <div flex="30">
+              <h4 class="truncate-long-texts">
+                <span>{{item.email || item.player.email}}</span>
+              </h4>
+            </div>
+            <div flex="30">
+              <h4 class="truncate-long-texts">
+                <span>{{item.gpg_id || item.player.gpg_id}}</span>
+              </h4>
+            </div>
+            <div flex="20">
+              <h4 class="truncate-long-texts">
+                <span>{{item.date | date:"MM/dd/yyyy h:mma"}}</span>
+              </h4>
+            </div>
+          </div>
+        </gmm-virtual-scroll-content>
+      </gmm-virtual-scroll>
+
+    </md-dialog-content>
+  </form>
+</md-dialog>

@@ -1,0 +1,185 @@
+<div layout="row">
+
+  <div class="div-content-padding" class="content" layout-align="center center">
+    <div layout="row" class="md-whiteframe-1dp filter-log" ng-show="campaignCtlList.showFilter()">
+      <div layout="column" class="filter-log-item" ng-show="campaignCtlList.games.length > 0">
+        <h4 translate="GAMES_ID"></h4>
+
+        <div ng-repeat="game in campaignCtlList.games">
+          <span class="no-select">{{game.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="campaignCtlList.regions.length > 0">
+        <h4 translate="REGIONS_ID"></h4>
+
+        <div ng-repeat="region in campaignCtlList.regions">
+          <span class="no-select">{{region.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="campaignCtlList.campaigns.length > 0">
+        <h4 translate="CAMPAIGNS_ID"></h4>
+
+        <div ng-repeat="campaign in campaignCtlList.campaigns">
+          <span class="no-select">{{campaign.name}}</span>
+        </div>
+      </div>
+      <div layout="column" class="filter-log-item" ng-show="campaignCtlList.status != 'all'">
+        <h4 translate="STATUS_ID"></h4>
+        <span class="no-select">{{campaignCtlList.status}}</span>
+      </div>
+      <div flex></div>
+      <md-button ng-click="campaignCtlList.clearFilter()" class="md-primary" aria-label="btClearFilter"
+                 translate="CLEAR_FILTER_ID">
+      </md-button>
+    </div>
+
+    <div ng-show="campaignCtlList.list.length === 0" layout="column" layout-align="center center">
+      <div class="div-there-nothing" align="center" layout-align="center center">
+        <ng-md-icon icon="filter_none" size="80" class="img_menu"></ng-md-icon>
+      </div>
+      <span class="there-nothing" translate="INFO_NO_CAMPAIGN_ID"></span>
+    </div>
+
+    <div ng-show="campaignCtlList.list.length > 0">
+      <div layout="row" layout-wrap layout-align="start center" infinite-scroll="campaignCtlList.nextList()">
+        <div flex="auto" ng-repeat="campaign in campaignCtlList.list">
+          <div ng-include="'app/components/campaign/campaign.card.html'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<gmm-fab tooltip="'NEW_CAMPAIGN_ID' | translate" stage-go="'home.campaign.create'"
+         gmm-fab-controller="campaignCtlList.export">
+  <gmm-fab-actions>
+    <md-button aria-label="export" class="md-fab md-raised md-mini" ng-csv="gmmFabController.getCsvExport()"
+               filename="{{gmmFabController.fileName}}" csv-header="gmmFabController.campaignHeader()">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">
+        {{'EXPORT_CSV_ID' | translate}}
+      </md-tooltip>
+      <ng-md-icon icon="archive" aria-label="csv" style="fill: #0d47a1"></ng-md-icon>
+    </md-button>
+  </gmm-fab-actions>
+</gmm-fab>
+
+<md-sidenav class="md-sidenav-right md-whiteframe-4dp sidenav-filter" md-component-id="right">
+  <md-toolbar class="md-theme-light md-primary-gmm">
+    <h1 class="md-toolbar-tools" translate="FILTER_CAMPAIGN_ID"></h1>
+  </md-toolbar>
+  <md-content layout-padding>
+    <md-content layout="column">
+
+      <md-input-container class="md-has-chip"
+                          ng-class="campaignCtlList.campaigns.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="CAMPAIGNS_ID"></label>
+        <md-chips ng-model="campaignCtlList.campaigns" md-autocomplete-snap md-require-match="true"
+                  md-on-add="campaignCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove" ng-click="campaignCtlList.removeCampaign($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-search-text="campaignCtlList.searchCampaignText"
+            md-items="campaign in campaignCtlList.querySearchCampaign(campaignCtlList.searchCampaignText)"
+            md-item-text="campaign"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="campaignCtlList.searchCampaignText">{{ campaign.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="campaignCtlList.games.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="GAMES_ID"></label>
+        <md-chips ng-model="campaignCtlList.games" md-autocomplete-snap md-require-match="true"
+                  md-on-add="campaignCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove" ng-click="campaignCtlList.removeGame($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-input-name="games-autocomplete"
+            md-search-text="campaignCtlList.searchGameText"
+            md-items="game in campaignCtlList.querySearchGame(campaignCtlList.searchGameText)"
+            md-item-text="game"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="campaignCtlList.searchGameText">{{ game.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                  <span>
+                    <em>{{$chip.name}}</em>
+                  </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container flex class="md-has-chip"
+                          ng-class="campaignCtlList.regions.length > 0 ? 'label-chips-active': ''">
+        <label class="label-chips" translate="REGIONS_ID"></label>
+        <md-chips ng-model="campaignCtlList.regions" md-autocomplete-snap md-require-match="true"
+                  md-on-add="campaignCtlList.filter()">
+          <button md-chip-remove class="md-primary md-chip-remove"
+                  ng-click="campaignCtlList.removeRegion($chip)">
+            <md-icon md-svg-icon="md-close"></md-icon>
+          </button>
+          <md-autocomplete
+            md-search-text="campaignCtlList.searchRegionText"
+            md-items="region in campaignCtlList.querySearchRegion(campaignCtlList.searchRegionText)"
+            md-item-text="region"
+            md-min-length="1"
+            md-delay="300">
+            <span md-highlight-text="campaignCtlList.searchRegionText">{{ region.name }}</span>
+          </md-autocomplete>
+          <md-chip-template>
+                    <span>
+                      <em>{{$chip.name}}</em>
+                    </span>
+          </md-chip-template>
+        </md-chips>
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <label translate="FILTER_STATUS_ID"></label>
+        <md-select name="campaignCtlList.status" ng-model="campaignCtlList.status"
+                   md-on-close="campaignCtlList.filter()" required>
+          <md-option ng-select="status" ng-value="status.key" ng-repeat="status in campaignCtlList.filterStatus">
+            {{status.value | translate}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+
+      <div layout="row" flex>
+        <md-input-container flex="80" class="md-block">
+          <label translate="ORDER_ID"></label>
+          <md-select name="campaignCtlList.lastField" ng-model="campaignCtlList.lastField"
+                     md-on-close="campaignCtlList.filter()" required>
+            <md-option ng-select="order" ng-value="order.key" ng-repeat="order in campaignCtlList.ordinations">
+              {{order.value | translate}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container flex="20" class="md-block">
+          <md-checkbox flex="auto" ng-change="campaignCtlList.filter()" ng-model="campaignCtlList.ascendant"
+                       aria-label="desc">
+            <span translate="DESC_ID"></span>
+          </md-checkbox>
+        </md-input-container>
+      </div>
+    </md-content>
+
+    <div layout="row" layout-align="center center">
+      <md-button ng-click="campaignCtlList.clearFilter()" class="md-primary" aria-label="btClear" translate="CLEAR_ID">
+      </md-button>
+      <md-button ng-click="campaignCtlList.closeSidenavFilter()" class="md-primary" aria-label="btClose"
+                 translate="CLOSE_ID">
+      </md-button>
+    </div>
+  </md-content>
+</md-sidenav>
+

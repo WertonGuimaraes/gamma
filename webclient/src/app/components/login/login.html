@@ -1,0 +1,30 @@
+<div layout="row" layout-align="center center" id="loginContainer">
+  <md-content class="login-content-padding">
+    <div layout="column" layout-align="center center">
+      <form name="loginForm" ng-controller="LoginController as loginCtrl">
+        <div align="center">
+          <h1>Sign In</h1>
+        </div>
+        <div layout="row" layout-align="center center" flex>
+          <ng-md-icon flex="10" icon="person"></ng-md-icon>
+          <md-input-container flex="90" class="md-block">
+            <label>Login</label>
+            <input  id="loginInput" name="login" ng-model="loginCtrl.account.login" type="text" required>
+          </md-input-container>
+        </div>
+        <div layout="row" flex>
+          <ng-md-icon flex="10" icon="vpn_key"></ng-md-icon>
+          <md-input-container flex="90" class="md-block">
+            <label>Password</label>
+            <input id="passwordInput" name="password" ng-model="loginCtrl.account.password" type="password" required>
+          </md-input-container>
+        </div>
+        <div align="center">
+          <md-button id="loginBtn" ng-disabled="loginForm.login.$invalid || loginForm.password.$invalid"
+                     class="md-raised md-primary" type="submit" ng-click="loginCtrl.login()">Login
+          </md-button>
+        </div>
+      </form>
+    </div>
+  </md-content>
+</div>

@@ -1,0 +1,93 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+
+    <div ng-show="gameCtrl.list.length === 0" layout="column" layout-align="center center">
+      <div class="div-there-nothing" align="center" layout-align="center center">
+        <ng-md-icon icon="vidiogame_asset" size="80" class="img_menu"></ng-md-icon>
+      </div>
+      <span class="there-nothing" translate="NO_GAME_ID"></span>
+    </div>
+
+    <div ng-show="gameCtrl.list.length > 0">
+
+      <div layout="row">
+        <div flex="33" align="center">
+          <span ng-click="gameCtrl.orderBy('name')">
+            <a class="table-header-text-{{gameCtrl.checkLastField('name')}}" id="name">
+              <span translate="NAME_ID"></span>
+              <ng-md-icon icon="keyboard_arrow_down" ng-show="gameCtrl.ascendant && gameCtrl.isLastSortedField('name')"></ng-md-icon>
+              <ng-md-icon icon="keyboard_arrow_up" ng-show="!gameCtrl.ascendant && gameCtrl.isLastSortedField('name')"></ng-md-icon>
+            </a>
+          </span>
+        </div>
+        <div flex="33" align="center">
+           <span ng-click="gameCtrl.orderBy('package_name')">
+              <a class="table-header-text-{{gameCtrl.checkLastField('package_name')}}" id="package_name">
+                <span translate="PACKAGE_NAME_ID"></span>
+                <ng-md-icon icon="keyboard_arrow_down" ng-show="gameCtrl.ascendant && gameCtrl.isLastSortedField('package_name')"></ng-md-icon>
+                <ng-md-icon icon="keyboard_arrow_up" ng-show="!gameCtrl.ascendant && gameCtrl.isLastSortedField('package_name')"></ng-md-icon>
+              </a>
+            </span>
+        </div>
+
+        <div flex="33" align="center">
+           <span ng-click="gameCtrl.orderBy('game_service_id')">
+              <a class="table-header-text-{{gameCtrl.checkLastField('game_service_id')}}" id="game_service_id">
+                <span translate="GAME_SERVICE_ID"></span>
+                <ng-md-icon icon="keyboard_arrow_down" ng-show="gameCtrl.ascendant && gameCtrl.isLastSortedField('game_service_id')"></ng-md-icon>
+                <ng-md-icon icon="keyboard_arrow_up" ng-show="!gameCtrl.ascendant && gameCtrl.isLastSortedField('game_service_id')"></ng-md-icon>
+              </a>
+            </span>
+        </div>
+      </div>
+
+      <md-divider></md-divider>
+
+      <div layout="row" layout-wrap layout-align="start center" infinite-scroll="gameCtrl.nextList()">
+        <div flex="auto" ng-repeat="game in gameCtrl.list">
+          <md-card>
+            <md-card-title class="card-list-game">
+              <md-card-title-text>
+                <div layout="column" align="left">
+                  <span class="md-headline truncate-long-texts">{{ game.name }}</span>
+                  <span class="md-subhead truncate-long-texts">{{ game.package_name }}</span>
+                  <span class="md-subhead truncate-long-texts">{{ game.game_service_id }}</span>
+                </div>
+              </md-card-title-text>
+              <md-card-title-media layout-align="start center">
+                <div class="md-media-lg card-media">
+                  <img ng-src="{{game.game_image}}" alt="{{game.name}}"/>
+                </div>
+              </md-card-title-media>
+            </md-card-title>
+
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button layout-align="center center" class="md-icon-button" aria-label="Send Push"
+                         ui-sref="home.push.create({urlFallback:'home.game.list', games:[game]})">
+                <md-tooltip md-direction="top"><span translate="PUSH_SEND_TO_PLAYERS_ID"></span></md-tooltip>
+                <ng-md-icon icon="system_update"></ng-md-icon>
+              </md-button>
+
+              <md-button layout-align="center center" class="md-icon-button" aria-label="Edit"
+                         ui-sref="home.game.edit({gameId:game.id})">
+                <md-tooltip md-direction="top"><span translate="EDIT_GAME_ID"></span></md-tooltip>
+                <ng-md-icon icon="mode_edit"></ng-md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<gmm-fab tooltip="'NEW_GAME_ID' | translate" stage-go="'home.game.create'" gmm-fab-controller="gameCtrl.export">
+  <gmm-fab-actions>
+    <md-button aria-label="export" class="md-fab md-raised md-mini" ng-csv="gmmFabController.getCsvExport()"
+               filename="{{gmmFabController.fileName}}" csv-header="gmmFabController.gameHeader()">
+      <md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">
+        <span translate="EXPORT_CSV_ID"></span>
+      </md-tooltip>
+      <ng-md-icon icon="archive" aria-label="csv" style="fill: #0d47a1"></ng-md-icon>
+    </md-button>
+  </gmm-fab-actions>
+</gmm-fab>

@@ -1,0 +1,32 @@
+<md-toolbar id="div-toolbar">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" hide-gt-sm ng-click="homeCtrl.toggleList()" aria-label="Show User List">
+      <ng-md-icon icon="more_vert"></ng-md-icon>
+    </md-button>
+    <div class="game-logo">
+      <a ui-sref="home">
+        <img ng-src="../../../assets/img/ic_logo_gamma.png" alt="Gamma" title="Go to Homepage">
+      </a>
+    </div>
+    <h2>{{homeCtrl.currentTittle() | translate}}</h2>
+    <span flex></span>
+    <md-input-container ng-show="searchBar" class="md-has-icon" md-no-float class="md-block">
+      <ng-md-icon id="icon_search" icon="search"></ng-md-icon>
+      <input ng-model="model" type="search" ng-change="homeCtrl.change(model)"  placeholder = "{{'SEARCH_ID' | translate}}">
+    </md-input-container>
+    <md-button ng-show="searchBar && homeCtrl.filter" class="md-icon-button" ng-click="homeCtrl.toggleRight()"
+               aria-label="filter">
+      <ng-md-icon icon="filter_list"></ng-md-icon>
+      <md-tooltip md-direction="down" md-autohide="false"><span translate="FILTER_ID"></span></md-tooltip>
+    </md-button>
+    <md-button ng-show="searchBar && !homeCtrl.notNew" class="md-icon-button" ng-click="homeCtrl.new()"
+               aria-label="add">
+      <ng-md-icon icon="add"></ng-md-icon>
+      <md-tooltip md-direction="down" md-autohide="false"><span translate="NEW_ID"></span></md-tooltip>
+    </md-button>
+    <md-button  id="btn_logout" class="md-icon-button" show-gt-sm aria-label="logout" ng-click="homeCtrl.logout()">
+      <ng-md-icon icon="logout"></ng-md-icon>
+      <md-tooltip md-direction="down" md-autohide="false"><span translate="LOGOUT_ID"></span></md-tooltip>
+    </md-button>
+  </div>
+</md-toolbar>

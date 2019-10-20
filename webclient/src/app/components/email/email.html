@@ -1,0 +1,87 @@
+<div layout="row">
+  <div class="div-content-padding" class="content" layout-align="center center">
+    <div layout="column" class="md-inline-form">
+      <md-content layout-padding>
+        <form name="emailForm">
+          <div layout="column">
+            <div layout="row" layout-align="end center">
+              <p>
+                <small class="md-caption">* required fields</small>
+              </p>
+            </div>
+            <div layout="row" class="md-padding">
+              <md-input-container flex>
+                <label>From
+                  <small class="md-caption">*</small>
+                </label>
+                <input type="text" min="3" name="emailFrom" ng-model="emailCtrl.email.from"
+                       required minlength="10" md-maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                <div ng-messages="emailForm.emailFrom.$error" role="alert">
+                  <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                    Your email must be between 10 and 100 characters long and look like an e-mail address.
+                  </div>
+                </div>
+              </md-input-container>
+            </div>
+            <div layout="row" class="md-padding" maxlength="250px">
+              <md-input-container flex>
+                <label>To
+                  <small class="md-caption">*</small>
+                </label>
+                <br />
+                <md-chips name="emailTo" ng-model="emailCtrl.email.to" md-autocomplete-snap md-require-match="true" readonly="true">
+                  <md-chip-template>
+                    <span>
+                      <em>({{$chip}})</em>
+                    </span>
+                  </md-chip-template>
+                </md-chips>
+
+
+              </md-input-container>
+            </div>
+            <div layout="row" class="md-padding">
+              <md-input-container flex>
+                <label>Subject
+                  <small class="md-caption">*</small>
+                </label>
+                <input type="text" min="3" name="emailSubject" ng-model="emailCtrl.email.subject"
+                       required>
+              </md-input-container>
+            </div>
+            <div layout="row" class="md-padding">
+              <md-input-container flex>
+                <label>Body
+                  <small class="md-caption">*</small>
+                </label>
+                <textarea type="text" min="3" name="emailBody" ng-model="emailCtrl.email.body"
+                       required md-maxlength="500" rows="5" md-select-on-focus></textarea>
+              </md-input-container>
+            </div>
+          </div>
+
+          <md-card class="campaign-card-item-list-width">
+            <div flex="auto" layout="column">
+              <label>[Mock] Email Sent:</label>
+              <json-formatter ng-show="emailCtrl.emailSent" json="emailCtrl.emailJson" open="2" class="card-warn md-padding"></json-formatter>
+            </div>
+          </md-card>
+        </form>
+
+        <div layout="column" class="margin-top-100">
+          <div layout="row" layout-align="end center" class="margin-top-100">
+            <md-input-container>
+              <button data-spinner-size="30" data-style="expand-left" ladda="emailCtrl.buttonSave"
+                      class="md-raised md-primary" ng-disabled="emailCtrl.disabled()"
+                      type="submit"
+                      ng-click="emailCtrl.submit($event)">{{emailCtrl.buttonText}}
+              </button>
+              <md-button md-no-ink ng-click="emailCtrl.cancel($event)" class="md-primary">Cancel</md-button>
+            </md-input-container>
+          </div>
+        </div>
+
+      </md-content>
+    </div>
+  </div>
+</div>

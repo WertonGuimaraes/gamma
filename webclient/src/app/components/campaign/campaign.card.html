@@ -1,0 +1,162 @@
+<md-card id="{{campaignCtlList.getCardId(campaign)}}"
+         ng-class="campaignCtlList.getCampaignStatus(campaign)" class="card-list-banner card-list-campaign"
+         layout="column">
+  <div layout="column" flex="85" ng-mouseover="mouseOverDetails = true"
+       ng-mouseleave="mouseOverDetails = false"
+       class="card-list-banner-content card-show-details"
+       ng-click="campaignCtlList.showDialog($event, campaign)">
+
+    <div class="card-hover" layout="column" flex="100" layout-align="center center"
+         ng-hide="!mouseOverDetails">
+      <h4 class="card-hover-text" translate="SHOW_DETAILS_ID"></h4>
+    </div>
+
+    <div>
+      <div layout="row" layout-align="center center">
+        <div flex="80">
+          <h3 class="truncate-long-texts">{{campaign.name}}</h3>
+        </div>
+        <div flex="20">
+          <h6 class="campaign-status" ng-show="campaign.active" translate="ENABLED_ID"></h6>
+          <h6 class="campaign-status" ng-show="!campaign.active" translate="DISABLED_ID"></h6>
+        </div>
+      </div>
+      <br/>
+
+      <div layout="column">
+
+        <small ng-class="{'card-disable': !campaign.active}" class="truncate-long-texts">
+          <span translate="GAMES_ID"></span>&nbsp{{campaignCtlList.getGameNames(campaign)}}
+        </small>
+
+        <div layout="row" layout-align="center center">
+          <div flex="15" layout="column">
+            <div flex="33" class="card-list-img-time">
+              <md-tooltip md-direction="left">{{'TIME_TO_START_CAMPAIGN_ID' | translate}}</md-tooltip>
+              <ng-md-icon icon="schedule" size="20"></ng-md-icon>
+            </div>
+            <div flex="33" class="card-list-img-time">
+              <md-tooltip md-direction="left">{{'CAMPAIGN_S_DURATION_ID' | translate}}</md-tooltip>
+              <ng-md-icon icon="timer" size="20"></ng-md-icon>
+            </div>
+            <div flex="33" class="card-list-img-time">
+              <md-tooltip md-direction="left">{{'TIME_TO_FINISH_CAMPAIGN_ID' | translate}}</md-tooltip>
+              <ng-md-icon icon="timelapse" size="20"></ng-md-icon>
+            </div>
+          </div>
+          <div flex="85">
+            <h2 class="truncate-long-texts" ng-init="campaignCtlList.startClockStartToTime(campaign)">
+              <timer id="{{'clockCampaignTimeToStart' + campaign.id}}"
+                     countdown="campaignCtlList.campaignClockTimeToStart(campaign)"
+                     autostart="false"
+                     max-time-unit="'day'"
+                     interval="campaignCtlList.timerInterval"
+                     finish-callback="campaignCtlList.clockTimeToStartOnFinished(campaign)">
+                <small translate="DAYS_ID"></small>
+                <span>{{ddays}} : </span>
+                <small translate="HRS_ID"></small>
+                <span>{{hhours}} : </span>
+                <small ng-show="ddays.toString().length <= 6">{{'MNS_ID' | translate}}</small>
+                <span>{{mminutes}} : </span>
+                <small ng-show="ddays.toString().length <= 3">{{'SECS_ID' | translate}}</small>
+                <span>{{sseconds}} </span>
+              </timer>
+            </h2>
+
+            <h2 class="truncate-long-texts" ng-init="campaignCtlList.startClockDuration(campaign)">
+              <timer id="{{'clockCampaignDuration' + campaign.id}}"
+                     autostart="false"
+                     start-time="campaign.startTime"
+                     max-time-unit="'day'"
+                     interval="campaignCtlList.timerInterval">
+                <small translate="DAYS_ID"></small>
+                <span>{{ddays}} : </span>
+                <small translate="HRS_ID"></small>
+                <span>{{hhours}} : </span>
+                <small ng-show="ddays.toString().length <= 6">{{'MNS_ID' | translate}}</small>
+                <span>{{mminutes}} : </span>
+                <small ng-show="ddays.toString().length <= 3">{{'SECS_ID' | translate}}</small>
+                <span>{{sseconds}} </span>
+              </timer>
+            </h2>
+
+            <h2 class="truncate-long-texts" ng-init="campaignCtlList.startClockTimeToFinish(campaign)">
+              <timer id="{{'clockTimeToFinish' + campaign.id}}"
+                     autostart="false"
+                     countdown="campaign.countdown"
+                     max-time-unit="'day'"
+                     interval="campaignCtlList.timerInterval"
+                     finish-callback="campaignCtlList.clockTimeToFinishOnFinished(campaign)">
+                <small translate="DAYS_ID"></small>
+                <span>{{ddays}} : </span>
+                <small translate="HRS_ID"></small>
+                <span>{{hhours}} : </span>
+                <small ng-show="ddays.toString().length <= 6">{{'MNS_ID' | translate}}</small>
+                <span>{{mminutes}} : </span>
+                <small ng-show="ddays.toString().length <= 3">{{'SECS_ID' | translate}}</small>
+                <span>{{sseconds}} </span>
+              </timer>
+            </h2>
+          </div>
+        </div>
+
+        <div layout="row" layout-wrap class="top-marged">
+          <div layout="row" layout-align="start center" flex="80">
+            <div layout="row" layout-align="start center" ng-if="campaign.regions[0].countries.length <= 1">
+                      <span
+                        class="flag-icon flag-icon-squared flag-icon-{{campaignCtlList.lowercaseCountryCode(campaign.regions[0].countries[0].country_code)}}">
+                      </span>
+              <span class="truncate-long-texts"
+                    layout-padding>{{ campaign.regions[0].countries[0].country_name }}</span>
+            </div>
+
+            <div layout="row" layout-align="start center" ng-if="campaign.regions[0].countries.length > 1">
+              <div layout="row" layout-align="center center" class="circle circle-list"
+                   ng-attr-style="background: {{campaign.regions[0].color}}">
+                <span>{{campaign.regions[0].name.charAt(0)}}</span>
+              </div>
+              <span class="truncate-long-texts" layout-padding>{{campaign.regions[0].name}}</span>
+            </div>
+
+            <span ng-if="campaign.regions.length > 1" class="card-warn"> +{{campaign.regions.length - 1}}</span>
+          </div>
+
+          <div flex="auto" layout-align="start end">
+            <span class="card-last-update">{{campaign.modified_date | date:'medium'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="{{campaignCtlList.getParticipantsCardId(campaign)}}" flex="15"
+       ng-class="campaignCtlList.getCampaignStatus(campaign)"
+       class="card-actions card-show-details" layout="column"
+       ng-mouseover="mouseOverParticipantsDetails = true" ng-mouseleave="mouseOverParticipantsDetails = false"
+       ui-sref="home.campaign.participants({campaignId:campaign.id})">
+
+    <div class="card-hover card-participants-hover" layout="column" flex="100" layout-align="center center"
+         ng-hide="!mouseOverParticipantsDetails">
+      <h4 class="card-hover-text" translate="SHOW_PARTICIPANTS_DETAILS_ID"></h4>
+    </div>
+    <div>
+      <div layout="row">
+        <div ng-class="campaignCtlList.classSelected(campaign)" flex="20">
+          <ng-md-icon icon="people" size="20" class="img_menu"></ng-md-icon>
+        </div>
+        <div layout-padding flex="80" ng-class="campaignCtlList.classSelected(campaign)">
+          <md-progress-linear md-mode="determinate"
+                              value="{{campaignCtlList.participantsProgress(campaign)}}">
+          </md-progress-linear>
+        </div>
+      </div>
+      <div layout-padding layout="row" align="right">
+        <small class="truncate-long-texts">
+          <span
+            ng-class="campaignCtlList.classSelected(campaign)">{{campaignCtlList.participantsProgress(campaign)}}%</span>
+          {{'REACHED_ID' | translate}}
+        </small>
+      </div>
+    </div>
+  </div>
+</md-card>
