@@ -17,7 +17,7 @@ django-filter==0.11.0
 django-jenkins==0.17.0
 django-nose==1.4.2
 django-storages==1.1.8
-djangorestframework==3.2.3
+djangorestframework==3.9.1
 djangorestframework-filters==0.5.0
 djangorestframework-jwt==1.7.2
 funcsigs==0.4
